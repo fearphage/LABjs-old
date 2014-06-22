@@ -14,11 +14,11 @@
       all_scripts = {},
       reFilename = /.*\/([^\?\#]+)(?:\?.*)?(?:\#.*)?$/,
       toString = Object.prototype.toString;
-  
-  function scriptFilename(src) { 
+
+  function scriptFilename(src) {
     return (src && src.length) ? src.match(reFilename)[1].toLowerCase() : '';
   }
-  
+
   function scriptTagExists(filename) {
     var scripts = doc.getElementsByTagName('script'), i = 0, script;
     while (script = scripts[i++]) {
@@ -28,18 +28,18 @@
     }
     return false;
   }
-  
+
   function engine(queueExec,_which) {
     queueExec = !!queueExec;
     _which = (typeof _which === JSSTR) ? _which : HEAD;
-    
+
     var _ready = false,
       _scripts_loading = false,
       publicAPI,
       _wait,
       _scripts = {},
       exec = [];
-      
+
     function handleScriptLoad(scriptentry) {
       if ((this.readyState && this.readyState != 'complete' && this.readyState != 'loaded') || scriptentry.done) { return; }
       this.onload = this.onreadystatechange = null; // prevent memory leak
@@ -64,7 +64,7 @@
         delay(function(){
           var __append = _append_to[__which] || doc.getElementsByTagName(__which)[0];
           if (!__append && (count++ < 10)) {
-            return delay(arguments.callee,25); 
+            return delay(arguments.callee,25);
           }
           var scriptElem = doc.createElement('script');
           scriptElem.setAttribute('type', type || 'text/javascript');
@@ -75,7 +75,7 @@
         },0);
       })(_which);
     }
-    
+
     function executeOrQueue(execBody,retObj) {
       if (queueExec) {
         exec.push(execBody);
@@ -83,7 +83,7 @@
       }
       else return execBody();
     }
-    
+
     publicAPI = {
       script:function() {
         var args = arguments;
@@ -127,7 +127,7 @@
     };
     return publicAPI;
   };
-  
+
   global.$LAB = function() {
     return {
       script:function(){
